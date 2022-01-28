@@ -58,7 +58,6 @@ export default function EditMessage(props) {
   const handleClick = (messageKey) => {
     setEditStatus(true);
     setEditMessageId(messageKey);
-    setEditMessageId(editMessageId.value[0])
   }
 
   // // Only render the Edit button option if the submitter matches the logged-in user
