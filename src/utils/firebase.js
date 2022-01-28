@@ -2,13 +2,14 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import "firebase/firestore";
+require("dotenv").config();
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBQn0H409UN2ty88z_eZqLFbVDThT4PwGQ",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "messaging-app-db831.firebaseapp.com",
   projectId: "messaging-app-db831",
   storageBucket: "messaging-app-db831.appspot.com",
