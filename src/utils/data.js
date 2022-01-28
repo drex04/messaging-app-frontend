@@ -17,12 +17,12 @@ export function getAllMessages(setStateVar, mounted) {
 }
 
 // Add new message
-export function addMessage() {
+export function addMessage(userEmail, subject, body) {
     axios
         .post("https://messaging-app-db831.ew.r.appspot.com/messages", {
             body: body,
-            dateChanged: '',
             dateCreated: '',
+            dateUpdated: '',
             subject: subject,
             userEmail: userEmail,
          })
@@ -37,12 +37,12 @@ export function addMessage() {
 
 
 // Update existing message
-export function updateMessage() {
+export function updateMessage(userEmail, subject, body) {
   axios
     .put("https://messaging-app-db831.ew.r.appspot.com/messages", {
       body: body,
-      dateChanged: "",
       dateCreated: "",
+      dateUpdated: "",
       subject: subject,
       userEmail: userEmail,
     })
