@@ -17,34 +17,15 @@ export function getAllMessages(setStateVar, mounted) {
 }
 
 // Add new message
-export function addMessage(userEmail, subject, body) {
-    axios
-        .post("https://messaging-app-db831.ew.r.appspot.com/messages", {
-            body: body,
-            dateCreated: '',
-            dateUpdated: '',
-            subject: subject,
-            userEmail: userEmail,
-         })
-         .then(function (response) {
-             console.log(response);
-         })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-}
-
-
-// Update existing message
-export function updateMessage(userEmail, subject, body) {
+export function addMessage(userEmail, subject, body, currentDate, authToken) {
   axios
-    .put("https://messaging-app-db831.ew.r.appspot.com/messages", {
+    .post("https://messaging-app-db831.ew.r.appspot.com/messages", {
       body: body,
-      dateCreated: "",
-      dateUpdated: "",
+      dateCreated: currentDate,
+      dateUpdated: currentDate,
       subject: subject,
       userEmail: userEmail,
+      authToken: authToken,
     })
     .then(function (response) {
       console.log(response);
@@ -53,4 +34,22 @@ export function updateMessage(userEmail, subject, body) {
       // handle error
       console.log(error);
     });
+}
+
+
+// Update existing message
+export function updateMessage(messageId, subject, body, currentDate) {
+  axios
+    .put(`https://messaging-app-db831.ew.r.appspot.com/messages/${messageId}`, {
+      body: body,
+      dateUpdated: currentDate,
+      subject: subject,
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
 }
