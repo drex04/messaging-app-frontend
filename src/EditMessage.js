@@ -1,28 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getUserEmail } from "./utils/auth.js";
+import React, { useState } from "react";
+import { getAllMessages, updateMessage } from "./utils/data.js";
 
-export default function EditMessage(props) {
-  let messageKey = props.value[0];
-  let messageContents = props.value[1];
-  let editSubject = props.editSubject;
-  let editBody = props.editBody;
+export default function EditMessage({
+  value: [messageKey, messageContents],
+  setMessages,
+  userEmail,
+}) {
+  const [tempSubject, setTempSubject] = useState(messageContents.subject);
+  const [tempBody, setTempBody] = useState(messageContents.body);
   let [editStatus, setEditStatus] = useState(false);
-  let editMessageId = props.editMessageId;
-  let setEditMessageId = props.setEditMessageId;
+  const authToken = localStorage.getItem("Auth Token");
 
-  // Handling changes & submissions of update form
-  function handleEditSubjectChange(event) {
-    props.onEditSubjectChange(event.target.value);
+  // Handling changes & submissions of "update post" form
+  function handleTempSubjectChange({ target: { value } }) {
+    setTempSubject(value);
   }
-  function handleEditBodyChange(event) {
-    props.onEditBodyChange(event.target.value);
+  function handleTempBodyChange({ target: { value } }) {
+    setTempBody(value);
   }
-  function handleEditSubmit(event) {
-    props.onEditSubmitEdit(event);
+  async function handleEditSubmit(event) {
+    // event.preventDefault();
+    const currentDate = new Date();
+    console.log(currentDate);
+    if (tempSubject && tempBody) {
+      await updateMessage({
+        messageId: messageKey,
+        body: tempBody,
+        currentDate: currentDate,
+        dateCreated: messageContents.dateCreated,
+        subject: tempSubject,
+        userEmail: userEmail,
+        authToken: authToken,
+      });
+      let mounted = true;
+      await getAllMessages(setMessages, mounted);
+      mounted = false;
+    }
   }
-
-  // let userEmail = getUserEmail(); // // This GCP API isn't working here for some reason
 
   const RenderEditForm = () => {
     return (
@@ -37,16 +51,16 @@ export default function EditMessage(props) {
             <input
               type="text"
               placeholder="Subject"
-              value={editSubject}
-              onChange={handleEditSubjectChange}
+              value={tempSubject}
+              onChange={handleTempSubjectChange}
             />
           </label>
           <label>
             Body:
             <textarea
               placeholder="Body"
-              value={editBody}
-              onChange={handleEditBodyChange}
+              value={tempBody}
+              onChange={handleTempBodyChange}
             />
           </label>
           <input type="submit" value="Submit" />
@@ -55,22 +69,15 @@ export default function EditMessage(props) {
     );
   };
 
-  const handleClick = (messageKey) => {
+  const handleClick = () => {
     setEditStatus(true);
-    setEditMessageId(messageKey);
-  }
-
-  // // Only render the Edit button option if the submitter matches the logged-in user
-  // if (userEmail === messageContents.userEmail) {
-  //   return <button onClick={editMessage}>Edit</button>;
-  // } else {
-  //   return null;
-  // }
+  };
 
   return (
     <div>
-    
-      <button onClick={handleClick}>Edit</button>
+      {messageContents.userEmail === userEmail ? (
+        <button onClick={handleClick}>Edit</button>
+      ) : null}
       {editStatus ? RenderEditForm() : null}
     </div>
   );

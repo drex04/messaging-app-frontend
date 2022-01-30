@@ -1,5 +1,5 @@
 body {
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   font-family: Roboto;
 }
 .message-container {
@@ -14,7 +14,8 @@ body {
   font-style: italic;
 }
 
-input[type=text], select {
+input[type="text"],
+select {
   width: 60%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -24,7 +25,8 @@ input[type=text], select {
   box-sizing: border-box;
 }
 
-textarea, select {
+textarea,
+select {
   width: 60%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -35,9 +37,9 @@ textarea, select {
   font-family: Roboto;
 }
 
-input[type=submit] {
+input[type="submit"] {
   width: 60%;
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;

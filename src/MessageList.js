@@ -1,33 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllMessages } from './utils/data.js'
-import EditMessage from './EditMessage.js'
+import { getAllMessages } from "./utils/data.js";
+import EditMessage from "./EditMessage.js";
 
-
-export default function MessageList(props) {
-  let messages = props.messages;
-  let setMessages = props.setMessages;
-  let subject = props.subject;
-  let body = props.body;
-  let editSubject = props.editSubject;
-  let editBody = props.editBody;
-  let navigate = useNavigate();
-  let handleEditSubjectChange = props.onEditSubjectChange;
-  let handleEditBodyChange = props.onEditBodyChange;
-  let handleEditSubmit = props.onEditSubmit;
-  let editMessageId = props.editMessageId;
-  let setEditMessageId = props.setEditMessageId;
-
+export default function MessageList({
+  messages,
+  setMessages,
+  subject,
+  body,
+  onSubjectChange,
+  onBodyChange,
+  onSubmit,
+  userEmail,
+}) {
+  const navigate = useNavigate();
 
   // Handling changes & submissions of "add new post" form
   function handleSubjectChange(event) {
-    props.onSubjectChange(event.target.value);
+    onSubjectChange(event.target.value);
   }
   function handleBodyChange(event) {
-    props.onBodyChange(event.target.value);
+    onBodyChange(event.target.value);
   }
   function handleSubmit(event) {
-    props.onSubmit(event);
+    onSubmit(event);
   }
 
   useEffect(() => {
@@ -74,13 +70,8 @@ export default function MessageList(props) {
         <p className="date">Posted on: {messageContents.dateCreated}</p>
         <EditMessage
           value={value}
-          onEditSubmit={handleEditSubmit}
-          onEditSubjectChange={handleEditSubjectChange}
-          onEditBodyChange={handleEditBodyChange}
-          editSubject={editSubject}
-          editBody={editBody}
-          editMessageId={editMessageId}
-          setEditMessageId={setEditMessageId}
+          setMessages={setMessages}
+          userEmail={userEmail}
         />
       </div>
     );
